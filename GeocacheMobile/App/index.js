@@ -1,19 +1,61 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Button } from "react-native";
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  createStackNavigator
+} from "react-navigation";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+import List from "./screens/List";
+import Map from "./screens/Map";
+import Details from "./screens/Details";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const ListSwitch = createSwitchNavigator({
+  List: {
+    screen: List
   },
+  Map: {
+    screen: Map
+  }
 });
+
+const ListToggleButton = ({ navigation }) => {
+  if (navigation.state.index === 0) {
+    return (
+      <Button
+        title="Map"
+        onPress={() => {
+          navigation.navigate("Map");
+        }}
+      />
+    );
+  }
+
+  return (
+    <Button
+      title="List"
+      onPress={() => {
+        navigation.navigate("List");
+      }}
+    />
+  );
+};
+
+const App = createStackNavigator({
+  List: {
+    screen: ListSwitch,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: "Caches",
+      headerRight: <ListToggleButton navigation={navigation} />
+    })
+  },
+
+  Details: {
+    screen: Details,
+    navigationOptions: {
+      headerTitle: "Details"
+    }
+  }
+});
+
+export default createAppContainer(App);
