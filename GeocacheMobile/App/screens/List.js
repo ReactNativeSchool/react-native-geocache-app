@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 
 import { geoFetch } from "../util/api";
-import { List } from "../components/List";
+import { List, ListItem } from "../components/List";
 
 class ListScreen extends React.Component {
   state = {
@@ -32,9 +32,13 @@ class ListScreen extends React.Component {
     return (
       <List
         data={this.state.list}
-        onItemPress={item =>
-          this.props.navigation.navigate("Details", { item })
-        }
+        renderItem={({ item, index }) => (
+          <ListItem
+            title={item.title}
+            isOdd={index % 2}
+            onPress={() => this.props.navigation.navigate("Details", { item })}
+          />
+        )}
       />
     );
   }

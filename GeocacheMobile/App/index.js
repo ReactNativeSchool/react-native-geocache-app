@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-native";
+import { StatusBar } from "react-native";
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -9,6 +9,21 @@ import {
 import List from "./screens/List";
 import Map from "./screens/Map";
 import Details from "./screens/Details";
+import CreateCache from "./screens/CreateCache";
+import EditCache from "./screens/EditCache";
+
+import {
+  ListToggleButton,
+  AddButton,
+  CloseButton
+} from "./components/Navigation";
+
+const defaultStackOptions = {
+  headerStyle: {
+    backgroundColor: "#3A8552"
+  },
+  headerTintColor: "#fff"
+};
 
 const ListSwitch = createSwitchNavigator({
   List: {
@@ -19,43 +34,83 @@ const ListSwitch = createSwitchNavigator({
   }
 });
 
-const ListToggleButton = ({ navigation }) => {
-  if (navigation.state.index === 0) {
-    return (
-      <Button
-        title="Map"
-        onPress={() => {
-          navigation.navigate("Map");
-        }}
-      />
-    );
-  }
-
-  return (
-    <Button
-      title="List"
-      onPress={() => {
-        navigation.navigate("List");
-      }}
-    />
-  );
-};
-
-const App = createStackNavigator({
-  List: {
-    screen: ListSwitch,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: "Caches",
-      headerRight: <ListToggleButton navigation={navigation} />
-    })
+const Information = createStackNavigator(
+  {
+    List: {
+      screen: ListSwitch,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: "Nearby Caches",
+        headerRight: <ListToggleButton navigation={navigation} />
+      })
+    },
+    Details: {
+      screen: Details,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: navigation.getParam("item", {}).title,
+        headerRight: <AddButton navigation={navigation} />
+      })
+    }
   },
-
-  Details: {
-    screen: Details,
-    navigationOptions: {
-      headerTitle: "Details"
+  {
+    defaultNavigationOptions: {
+      ...defaultStackOptions
     }
   }
-});
+);
 
-export default createAppContainer(App);
+const App = createStackNavigator(
+  {
+    Information: {
+      screen: Information
+    },
+    CreateCache: {
+      screen: createStackNavigator(
+        {
+          CreateCache: {
+            screen: CreateCache,
+            navigationOptions: ({ navigation }) => ({
+              headerTitle: "Create Cache",
+              headerRight: <CloseButton navigation={navigation} />
+            })
+          }
+        },
+        {
+          defaultNavigationOptions: {
+            ...defaultStackOptions
+          }
+        }
+      )
+    },
+    EditCache: {
+      screen: createStackNavigator(
+        {
+          EditCache: {
+            screen: EditCache,
+            navigationOptions: ({ navigation }) => ({
+              headerTitle: "Edit Cache",
+              headerRight: <CloseButton navigation={navigation} />
+            })
+          }
+        },
+        {
+          defaultNavigationOptions: {
+            ...defaultStackOptions
+          }
+        }
+      )
+    }
+  },
+  {
+    headerMode: "none",
+    mode: "modal"
+  }
+);
+
+const AppWithContainer = createAppContainer(App);
+
+export default () => (
+  <React.Fragment>
+    <StatusBar barStyle="light-content" />
+    <AppWithContainer />
+  </React.Fragment>
+);
