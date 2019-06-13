@@ -1,6 +1,6 @@
-const app = require("../../util/configureApi");
-const connectDB = require("../../util/db");
-const Cache = require("../../models/Cache");
+const app = require("../../../util/configureApi");
+const connectDB = require("../../../util/db");
+const Cache = require("../../../models/Cache");
 
 app.get("*", (req, res) => {
   connectDB()
@@ -9,7 +9,7 @@ app.get("*", (req, res) => {
     })
     .then(cacheItems => {
       res.status(200).json({
-        data: cacheItems
+        result: cacheItems
       });
     })
     .catch(err => {

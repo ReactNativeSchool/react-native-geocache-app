@@ -11,7 +11,7 @@ class ListScreen extends React.Component {
   };
 
   componentDidMount() {
-    geoFetch("/list")
+    geoFetch("/geocache/list")
       .then(response => {
         this.setState({
           loading: false,

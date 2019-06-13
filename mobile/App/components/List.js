@@ -45,7 +45,7 @@ export const ListItem = ({ title, onPress, isOdd }) => (
 export const List = props => (
   <FlatList
     {...props}
-    keyExtractor={item => item.id.toString()}
+    keyExtractor={item => item._id}
     ItemSeparatorComponent={() => <View style={styles.sep} />}
   />
 );
