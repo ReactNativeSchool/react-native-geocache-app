@@ -10,30 +10,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export const ListToggleButton = ({ navigation }) => {
-  if (navigation.state.index === 0) {
-    return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Map")}
-        style={styles.btnRight}
-        activeOpacity={0.75}
-      >
-        <Ionicons name={`${iconPrefix}-map`} size={25} color="#fff" />
-      </TouchableOpacity>
-    );
-  }
-
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("List")}
-      style={styles.btnRight}
-      activeOpacity={0.75}
-    >
-      <Ionicons name={`${iconPrefix}-list`} size={25} color="#fff" />
-    </TouchableOpacity>
-  );
-};
-
 export const AddButton = ({ navigation }) => (
   <TouchableOpacity
     onPress={() => navigation.navigate("CreateCache")}

@@ -1,22 +1,13 @@
 import React from "react";
 import { StatusBar } from "react-native";
-import {
-  createAppContainer,
-  createSwitchNavigator,
-  createStackNavigator
-} from "react-navigation";
+import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import List from "./screens/List";
-import Map from "./screens/Map";
 import Details from "./screens/Details";
 import CreateCache from "./screens/CreateCache";
 import EditCache from "./screens/EditCache";
 
-import {
-  ListToggleButton,
-  AddButton,
-  CloseButton
-} from "./components/Navigation";
+import { AddButton, CloseButton } from "./components/Navigation";
 
 const defaultStackOptions = {
   headerStyle: {
@@ -25,29 +16,19 @@ const defaultStackOptions = {
   headerTintColor: "#fff"
 };
 
-const ListSwitch = createSwitchNavigator({
-  List: {
-    screen: List
-  },
-  Map: {
-    screen: Map
-  }
-});
-
 const Information = createStackNavigator(
   {
     List: {
-      screen: ListSwitch,
+      screen: List,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: "Nearby Caches",
-        headerRight: <ListToggleButton navigation={navigation} />
+        headerTitle: "Caches",
+        headerRight: <AddButton navigation={navigation} />
       })
     },
     Details: {
       screen: Details,
       navigationOptions: ({ navigation }) => ({
-        headerTitle: navigation.getParam("item", {}).title,
-        headerRight: <AddButton navigation={navigation} />
+        headerTitle: navigation.getParam("item", {}).title
       })
     }
   },
