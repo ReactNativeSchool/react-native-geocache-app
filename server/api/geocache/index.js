@@ -14,7 +14,7 @@ app.post("*", (req, res) => {
     })
     .catch(err => {
       res.status(err.statusCode || 500).json({
-        error: err
+        error: err.message
       });
     });
 });
