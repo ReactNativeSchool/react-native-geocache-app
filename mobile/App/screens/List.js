@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { geoFetch } from "../util/api";
 import { List, ListItem } from "../components/List";
 
 class ListScreen extends React.Component {
@@ -9,19 +8,6 @@ class ListScreen extends React.Component {
     loading: true,
     list: []
   };
-
-  componentDidMount() {
-    geoFetch("/geocache/list")
-      .then(response => {
-        this.setState({
-          loading: false,
-          list: response.result
-        });
-      })
-      .catch(err => {
-        console.log("list err", err);
-      });
-  }
 
   render() {
     if (this.state.loading) {
