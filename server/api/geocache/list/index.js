@@ -4,9 +4,7 @@ const Cache = require("../../../models/Cache");
 
 app.get("*", (req, res) => {
   connectDB()
-    .then(() => {
-      return Cache.find();
-    })
+    .then(() => Cache.find())
     .then(cacheItems => {
       res.status(200).json({
         result: cacheItems

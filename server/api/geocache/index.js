@@ -4,9 +4,7 @@ const Cache = require("../../models/Cache");
 
 app.post("*", (req, res) => {
   connectDB()
-    .then(() => {
-      return Cache.create(req.body);
-    })
+    .then(() => Cache.create(req.body))
     .then(cacheItem => {
       res.status(200).json({
         data: cacheItem

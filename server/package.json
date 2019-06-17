@@ -5,5 +5,9 @@
     "helmet": "^3.18.0",
     "moment": "^2.24.0",
     "mongoose": "^5.5.14"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-handlebarlabs": "^0.0.3"
   }
 }

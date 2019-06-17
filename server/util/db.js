@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 mongoose.Promise = global.Promise;
 let isConnected;
 
@@ -6,7 +7,7 @@ let isConnected;
 const DB_URL =
   "mongodb+srv://admin:demopassword@geocachedemo-5eefd.mongodb.net/test?retryWrites=true&w=majority";
 
-module.exports = connectToDatabase = () => {
+const connectToDatabase = () => {
   if (isConnected) {
     console.log("=> using existing database connection");
     return Promise.resolve();
@@ -17,3 +18,5 @@ module.exports = connectToDatabase = () => {
     isConnected = db.connections[0].readyState;
   });
 };
+
+module.exports = connectToDatabase;
