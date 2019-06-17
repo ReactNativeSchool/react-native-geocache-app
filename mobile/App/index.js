@@ -5,7 +5,6 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import List from "./screens/List";
 import Details from "./screens/Details";
 import CreateCache from "./screens/CreateCache";
-import EditCache from "./screens/EditCache";
 
 import { AddButton, CloseButton } from "./components/Navigation";
 
@@ -51,24 +50,6 @@ const App = createStackNavigator(
             screen: CreateCache,
             navigationOptions: ({ navigation }) => ({
               headerTitle: "Create Cache",
-              headerRight: <CloseButton navigation={navigation} />
-            })
-          }
-        },
-        {
-          defaultNavigationOptions: {
-            ...defaultStackOptions
-          }
-        }
-      )
-    },
-    EditCache: {
-      screen: createStackNavigator(
-        {
-          EditCache: {
-            screen: EditCache,
-            navigationOptions: ({ navigation }) => ({
-              headerTitle: "Edit Cache",
               headerRight: <CloseButton navigation={navigation} />
             })
           }
