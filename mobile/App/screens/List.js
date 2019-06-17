@@ -19,8 +19,7 @@ class ListScreen extends React.Component {
         });
       })
       .catch(err => {
-        console.log("err", err);
-        alert(err.message);
+        console.log("list err", err);
       });
   }
 
