@@ -65,7 +65,6 @@ const App = createStackNavigator(
   {
     headerMode: "none",
     mode: "modal"
-    // initialRouteName: "CreateCache"
   }
 );
 
