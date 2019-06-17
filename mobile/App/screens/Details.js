@@ -11,6 +11,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 
 import { Button } from "../components/Button";
+import { geoFetch } from "../util/api";
 
 const screen = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -53,7 +54,9 @@ const styles = StyleSheet.create({
 
 class Details extends React.Component {
   state = {
-    showMap: false
+    showMap: false,
+    loading: false,
+    updatedItem: null
   };
 
   componentDidMount() {
@@ -64,12 +67,25 @@ class Details extends React.Component {
     });
   }
 
-  handleLogPress = () => {
-    alert("todo");
+  handleLogPress = _id => {
+    this.setState({ loading: true }, () => {
+      geoFetch(`/geocache/log-find?_id=${_id}`, { method: "PUT" })
+        .then(res => {
+          this.setState({ updatedItem: res.data });
+        })
+        .catch(error => {
+          console.log("log press error", error);
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    });
   };
 
   render() {
-    const item = this.props.navigation.getParam("item", {});
+    const item = this.state.updatedItem
+      ? this.state.updatedItem
+      : this.props.navigation.getParam("item", {});
 
     return (
       <SafeAreaView style={styles.container}>
@@ -100,7 +116,14 @@ class Details extends React.Component {
           <View style={styles.section}>
             <Text style={styles.titleText}>{item.title}</Text>
             <Text style={styles.text}>{item.description}</Text>
-            <Button text="Log" onPress={this.handleLogPress} />
+            <Text style={styles.text}>
+              {`Found ${item.foundCount || 0} times.`}
+            </Text>
+            <Button
+              text="Log"
+              onPress={() => this.handleLogPress(item._id)}
+              loading={this.state.loading}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

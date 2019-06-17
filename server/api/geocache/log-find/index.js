@@ -2,14 +2,23 @@ const app = require("../../../util/configureApi");
 const connectDB = require("../../../util/db");
 const Cache = require("../../../models/Cache");
 
-app.get("*", (req, res) => {
+app.put("*", (req, res) => {
   connectDB()
     .then(() => {
-      return Cache.find();
+      const { _id } = req.query;
+      if (!_id) {
+        throw new Error("No document id specified.");
+      }
+
+      return Cache.findOneAndUpdate(
+        { _id },
+        { $inc: { foundCount: 1 } },
+        { new: true, useFindAndModify: true }
+      );
     })
-    .then(cacheItems => {
+    .then(cacheItem => {
       res.status(200).json({
-        result: cacheItems
+        data: cacheItem
       });
     })
     .catch(err => {

@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 45,
     alignItems: "center"
   },
+  buttonLoading: {
+    backgroundColor: "#9CC2A8"
+  },
   text: {
     fontWeight: "500",
     fontSize: 18,
@@ -16,8 +19,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export const Button = ({ text, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={styles.button}>
+export const Button = ({ text, onPress, loading = false }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={[styles.button, loading && styles.buttonLoading]}
+    disabled={loading}
+  >
     <Text style={styles.text}>{text}</Text>
   </TouchableOpacity>
 );
