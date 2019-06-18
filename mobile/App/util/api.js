@@ -9,4 +9,10 @@ export const geoFetch = (path, options = {}) => {
 
       throw new Error('Something went wrong... please try again.');
     })
+    .catch(error => {
+      // Log to sentry
+      console.warn('ERROR: ', `${BASE_URL}/api${path}`, error);
+
+      throw new Error(error);
+    })
 }
