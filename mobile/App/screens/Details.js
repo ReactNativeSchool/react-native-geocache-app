@@ -3,6 +3,7 @@ import { View, StyleSheet, SafeAreaView, Text, ScrollView, Dimensions, Interacti
 import MapView, { Marker } from 'react-native-maps';
 
 import { Button } from "../components/Button";
+import { geoFetch } from '../util/api';
 
 const screen = Dimensions.get('window');
 
@@ -57,8 +58,19 @@ class Details extends React.Component {
     })
   }
 
-  handleLogPress = () => {
-    alert("todo!");
+  handleLogPress = (_id) => {
+    this.setState({ loading: true }, () => {
+      geoFetch(`/geocache/log-find?_id=${_id}`, { method: 'PUT' })
+        .then(res => {
+          this.setState({ updatedItem: res.result })
+        })
+        .catch(error => {
+          console.log('log press error', error);
+        })
+        .finally(() => {
+          this.setState({ loading: false })
+        })
+    })
   };
 
   render() {
@@ -92,7 +104,7 @@ class Details extends React.Component {
             </Text>
             <Button
               text="Log"
-              onPress={this.handleLogPress}
+              onPress={() => this.handleLogPress(item._id)}
               loading={this.state.loading}
             />
           </View>
