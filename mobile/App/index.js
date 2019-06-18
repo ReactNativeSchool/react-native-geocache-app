@@ -4,8 +4,9 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 
 import List from "./screens/List";
 import Details from "./screens/Details";
+import CreateCache from './screens/CreateCache';
 
-import { AddButton } from "./components/Navigation";
+import { AddButton, CloseButton } from "./components/Navigation";
 
 const defaultStackOptions = {
   headerStyle: {
@@ -37,7 +38,29 @@ const Information = createStackNavigator(
   }
 );
 
-const AppWithContainer = createAppContainer(Information);
+const App = createStackNavigator({
+  Information,
+  CreateCache: {
+    screen: createStackNavigator({
+      CreateCreate: {
+        screen: CreateCache,
+        navigationOptions: ({ navigation }) => ({
+          headerTitle: "Create Cache",
+          headerRight: <CloseButton navigation={navigation} />
+        })
+      }
+    }, {
+      defaultNavigationOptions: {
+        ...defaultStackOptions,
+      }
+    })
+  }
+}, {
+  headerMode: 'none',
+  mode: 'modal'
+})
+
+const AppWithContainer = createAppContainer(App);
 
 export default () => (
   <React.Fragment>
