@@ -1,6 +1,7 @@
 import React from "react";
 import { StatusBar } from "react-native";
-import { createAppContainer, createStackNavigator } from "react-navigation";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
 import List from "./screens/List";
 import Details from "./screens/Details";
@@ -21,7 +22,7 @@ const Information = createStackNavigator(
       screen: List,
       navigationOptions: ({ navigation }) => ({
         headerTitle: "Caches",
-        headerRight: <AddButton navigation={navigation} />
+        headerRight: () => <AddButton navigation={navigation} />
       })
     },
     Details: {
