@@ -1,7 +1,8 @@
 import React from "react";
 import { StatusBar } from "react-native";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createCompatNavigatorFactory } from "@react-navigation/compat";
 
 import List from "./screens/List";
 import Details from "./screens/Details";
@@ -15,7 +16,7 @@ const defaultStackOptions = {
   headerTintColor: "#fff"
 };
 
-const Information = createStackNavigator(
+const Information = createCompatNavigatorFactory(createStackNavigator)(
   {
     List: {
       screen: List,
@@ -38,11 +39,9 @@ const Information = createStackNavigator(
   }
 );
 
-const AppWithContainer = createAppContainer(Information);
-
 export default () => (
-  <React.Fragment>
+  <NavigationContainer>
     <StatusBar barStyle="light-content" />
-    <AppWithContainer />
-  </React.Fragment>
+    <Information />
+  </NavigationContainer>
 );
