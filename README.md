@@ -22,6 +22,8 @@ A simple cross platform (iOS and Android) React Native geocache app and server (
 - `cd server`
 - `now dev`
 
+**Note:** You may need to add your IP address to the whitelist in mongoDB Atlas.
+
 ---
 
 This project was put together to serve as an example to help you in building your own React Native apps. Feel free to download it and tinker with it!
