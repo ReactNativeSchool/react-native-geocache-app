@@ -1,11 +1,12 @@
 import React from "react";
 import { StatusBar } from "react-native";
-import { createAppContainer } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createCompatNavigatorFactory } from "@react-navigation/compat";
 
 import List from "./screens/List";
 import Details from "./screens/Details";
-import CreateCache from './screens/CreateCache';
+import CreateCache from "./screens/CreateCache";
 
 import { AddButton, CloseButton } from "./components/Navigation";
 
@@ -16,7 +17,7 @@ const defaultStackOptions = {
   headerTintColor: "#fff"
 };
 
-const Information = createStackNavigator(
+const Information = createCompatNavigatorFactory(createStackNavigator)(
   {
     List: {
       screen: List,
@@ -39,33 +40,37 @@ const Information = createStackNavigator(
   }
 );
 
-const App = createStackNavigator({
-  Information,
-  CreateCache: {
-    screen: createStackNavigator({
-      CreateCreate: {
-        screen: CreateCache,
-        navigationOptions: ({ navigation }) => ({
-          headerTitle: "Create Cache",
-          headerRight: <CloseButton navigation={navigation} />
-        })
-      }
-    }, {
-      defaultNavigationOptions: {
-        ...defaultStackOptions,
-      }
-    })
+const App = createCompatNavigatorFactory(createStackNavigator)(
+  {
+    Information,
+    CreateCache: {
+      screen: createCompatNavigatorFactory(createStackNavigator)(
+        {
+          CreateCreate: {
+            screen: CreateCache,
+            navigationOptions: ({ navigation }) => ({
+              headerTitle: "Create Cache",
+              headerRight: <CloseButton navigation={navigation} />
+            })
+          }
+        },
+        {
+          defaultNavigationOptions: {
+            ...defaultStackOptions
+          }
+        }
+      )
+    }
+  },
+  {
+    headerMode: "none",
+    mode: "modal"
   }
-}, {
-  headerMode: 'none',
-  mode: 'modal'
-})
-
-const AppWithContainer = createAppContainer(App);
+);
 
 export default () => (
-  <React.Fragment>
+  <NavigationContainer>
     <StatusBar barStyle="light-content" />
-    <AppWithContainer />
-  </React.Fragment>
+    <App />
+  </NavigationContainer>
 );
