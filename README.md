@@ -1,4 +1,4 @@
-## React Native Weather App
+## React Native Geocache App
 
 A simple cross platform (iOS and Android) React Native geocache app and server (powered by now.sh). This example was put together for [React Native by Example](https://www.reactnativebyexample.com/). Get started learning & mastering React Native for free!
 
